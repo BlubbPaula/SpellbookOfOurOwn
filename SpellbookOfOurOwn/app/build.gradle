@@ -1,33 +1,56 @@
-plugins {
-    id 'com.android.application'
-    id 'kotlin-android'
-}
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android-extensions'
+
+apply plugin: "androidx.navigation.safeargs.kotlin"
 
 android {
-    compileSdk 30
-
     defaultConfig {
-        applicationId "com.example.spellbookofourown"
-        minSdk 21
-        targetSdk 30
-        versionCode 1
-        versionName "1.0"
+        versionCode project.hasProperty('versionCode') ? Integer.parseInt(project.versionCode) : Integer.parseInt(Calendar.getInstance().format("yyyyMMdd00"))
+        versionName "1.0.0"
+        multiDexEnabled true
+    }
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "${applicationId}-${variant.productFlavors[0].name}-v${variant.versionName}-${variant.versionCode}-${variant.productFlavors[1].name}-${variant.buildType.name}.apk"
+        }
     }
 
     buildTypes {
-        release {
+        debug {
+            applicationIdSuffix '.dev'
             minifyEnabled false
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        release {
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+
+    flavorDimensions "store", "apiEndpoint"
+
+    productFlavors {
+        google {
+            dimension "store"
+        }
+        amazon {
+            dimension "store"
+        }
+        prod {
+            dimension "apiEndpoint"
+        }
+        dev {
+            dimension "apiEndpoint"
+        }
     }
-    kotlinOptions {
-        jvmTarget = '1.8'
+    buildFeatures {
+        viewBinding = true
     }
 }
 

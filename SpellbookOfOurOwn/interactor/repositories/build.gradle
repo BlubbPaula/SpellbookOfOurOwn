@@ -1,0 +1,14 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+
+dependencies {
+    implementation project(projectModules.entities)
+
+    implementation deps.kotlin_coroutines
+    implementation deps.koin.core
+    implementation deps.androidx.lifecycle
+
+    testImplementation deps.testlib_junit
+    testImplementation deps.androidx.test.core
+
+}

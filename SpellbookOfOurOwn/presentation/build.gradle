@@ -1,0 +1,24 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+dependencies {
+    implementation project(projectModules.interactor.usecases)
+    implementation project(projectModules.entities)
+
+    implementation deps.koin.core
+    implementation deps.koin.android
+    implementation deps.koin.androidx_scope
+    implementation deps.koin.androidx_viewmodel
+
+    implementation deps.kotlin_coroutines
+
+    implementation deps.androidx.lifecycle_viewmodel
+    implementation deps.androidx.lifecycle_ktx
+
+    testImplementation deps.testlib_junit
+    testImplementation deps.mockito.core
+    testImplementation deps.mockito.inline
+    testImplementation deps.androidx.test.core
+    testImplementation deps.kotlin_coroutines_test
+}

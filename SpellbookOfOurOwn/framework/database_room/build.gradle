@@ -1,0 +1,35 @@
+apply plugin: 'com.android.library'
+
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    defaultConfig {
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.incremental": "true"]
+            }
+        }
+    }
+}
+
+dependencies {
+    implementation project(projectModules.interactor.repositories)
+    implementation project(projectModules.entities)
+
+    implementation deps.kotlin_stdlib
+
+    implementation deps.kotlin_coroutines
+
+    implementation deps.koin.core
+    implementation deps.koin.android
+
+    implementation deps.room.runtime
+    implementation deps.room.ktx
+    kapt deps.room.compiler
+    testImplementation deps.room.test
+}
+
+sourceCompatibility = "8"
+targetCompatibility = "8"

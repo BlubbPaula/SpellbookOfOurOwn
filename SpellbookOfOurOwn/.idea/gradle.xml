@@ -11,6 +11,17 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/entities" />
+            <option value="$PROJECT_DIR$/framework" />
+            <option value="$PROJECT_DIR$/framework/database_room" />
+            <option value="$PROJECT_DIR$/framework/datasource_spells_api" />
+            <option value="$PROJECT_DIR$/framework/datasource_spells_room" />
+            <option value="$PROJECT_DIR$/framework/repository_spells" />
+            <option value="$PROJECT_DIR$/interactor" />
+            <option value="$PROJECT_DIR$/interactor/repositories" />
+            <option value="$PROJECT_DIR$/interactor/usecases" />
+            <option value="$PROJECT_DIR$/presentation" />
+            <option value="$PROJECT_DIR$/ui" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

@@ -1,10 +1,19 @@
-dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
-    repositories {
-        google()
-        mavenCentral()
-        jcenter() // Warning: this repository is going to shut down soon
-    }
-}
+//dependencyResolutionManagement {
+//    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+//    repositories {
+//        google()
+//        mavenCentral()
+//        jcenter() // Warning: this repository is going to shut down soon
+//    }
+//}
 rootProject.name = "SpellbookOfOurOwn"
 include ':app'
+include ':entities'
+include ':framework:repository_spells'
+include ':framework:database_room'
+include ':framework:datasource_spells_api'
+include ':framework:datasource_spells_room'
+include ':ui'
+include ':presentation'
+include ':interactor:usecases'
+include ':interactor:repositories'

@@ -1,15 +1,181 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
+    ext.buildConfig = [
+            'minSdk'     : 21,
+            'compileSdk' : 29,
+            'targetSdk'  : 29,
+            'javaVersion': JavaVersion.VERSION_1_8,
+            'buildTools' : "29.0.3"
+    ]
+
+    ext.versions = [
+            'lifecycle'       : "2.2.0",
+            'koin'            : "2.1.6",
+            'androidx_testing': "1.3.0",
+            'room'            : "2.2.5",
+    ]
+
+    ext.projectModules = [
+            'entities'    : ':entities',
+            'interactor'  : [
+                    'repositories': ':interactor:repositories',
+                    'usecases'    : ':interactor:usecases'
+            ],
+            'presentation': ':presentation',
+            'framework'   : [
+                    'database'               : ':framework:database_room',
+                    'datasource_spells_api'  : ':framework:datasource_spells_api',
+                    'datasource_spells_room'  : ':framework:datasource_spells_room',
+                    'repository_spells'        : ':framework:repository_spells',
+            ],
+            'ui': ':ui'
+    ]
+
+    ext.deps = [
+            'kotlin_stdlib'         : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.4.10",
+            'kotlin_coroutines'     : "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.0",
+            'kotlin_coroutines_test': "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.4.0",
+            'koin'                  : [
+                    'core'              : "org.koin:koin-core:${versions.koin}",
+                    'android'           : "org.koin:koin-android:${versions.koin}",
+                    'androidx_scope'    : "org.koin:koin-androidx-scope:${versions.koin}",
+                    'androidx_viewmodel': "org.koin:koin-androidx-viewmodel:${versions.koin}",
+                    'test'              : "org.koin:koin-test:${versions.koin}"
+            ],
+            'androidx'              : [
+                    'core'               : "androidx.core:core-ktx:1.3.2",
+                    'appcompat'          : "androidx.appcompat:appcompat:1.2.0",
+                    'multidex'           : "androidx.multidex:multidex:2.0.1",
+                    'constraintlayout'   : "androidx.constraintlayout:constraintlayout:2.0.2",
+                    'recyclerview'       : "androidx.recyclerview:recyclerview:1.1.0",
+                    'viewpager2'         : "androidx.viewpager2:viewpager2:1.0.0",
+                    'legacy_v4'          : "androidx.legacy:legacy-support-v4:1.0.0",
+                    'lifecycle'          : "androidx.lifecycle:lifecycle-extensions:${versions.lifecycle}",
+                    'lifecycle_viewmodel': "androidx.lifecycle:lifecycle-viewmodel-ktx:${versions.lifecycle}",
+                    'lifecycle_compiler' : "androidx.lifecycle:lifecycle-compiler:${versions.lifecycle}",
+                    'lifecycle_ktx'      : "androidx.lifecycle:lifecycle-runtime-ktx:${versions.lifecycle}",
+                    'navigation_fragment': "androidx.navigation:navigation-fragment-ktx:2.3.1",
+                    'navigation_ui'      : "androidx.navigation:navigation-ui-ktx:2.3.1",
+                    'paging'             : "androidx.paging:paging-runtime-ktx:2.1.2",
+                    'test'               : [
+                            'core'        : "androidx.arch.core:core-testing:2.1.0",
+                            'rules'       : "androidx.test:rules:${versions.androidx_testing}",
+                            'runner'      : "androidx.test:runner:${versions.androidx_testing}",
+                            'junit'       : "androidx.test.ext:junit:1.1.2",
+                            'espressocore': "androidx.test.espresso:espresso-core:3.3.0"
+                    ]
+            ],
+            'room'                  : [
+                    'runtime' : "androidx.room:room-runtime:${versions.room}",
+                    'ktx'     : "androidx.room:room-ktx:${versions.room}",
+                    'compiler': "androidx.room:room-compiler:${versions.room}",
+                    'test'    : "androidx.room:room-testing:${versions.room}"
+            ],
+            'retrofit'              : [
+                    'core'           : "com.squareup.retrofit2:retrofit:2.9.0",
+                    'converter_moshi': "com.squareup.retrofit2:converter-moshi:2.9.0",
+                    'logger'         : "com.squareup.okhttp3:logging-interceptor:4.8.1"
+            ],
+
+            'retrofit_rss_converter': 'com.github.faruktoptas:RetrofitRssConverterFactory:0.1.0',
+
+            'moshi'                 : [
+                    'adapters': "com.squareup.moshi:moshi-adapters:1.10.0",
+                    'codegen' : "com.squareup.moshi:moshi-kotlin-codegen:1.10.0"
+            ],
+            'glide'                 : [
+                    'core'    : "com.github.bumptech.glide:glide:4.11.0",
+                    'compiler': "com.github.bumptech.glide:compiler:4.11.0"
+            ],
+            'testlib_junit'         : "junit:junit:4.13",
+            'mockito'               : [
+                    'core'  : "org.mockito:mockito-core:3.5.15",
+                    'inline': "org.mockito:mockito-inline:3.5.15"
+            ],
+            'leak_canary'           : "com.squareup.leakcanary:leakcanary-android:2.5",
+            'tools'                 : [
+                    'gradleandroid' : "com.android.tools.build:gradle:4.1.0",
+                    'kotlin'        : "org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.10",
+                    'gradleversions': "com.github.ben-manes:gradle-versions-plugin:0.29.0",
+                    'navigation'    : "androidx.navigation:navigation-safe-args-gradle-plugin:2.3.1",
+                    'jacoco_android': "com.vanniktech:gradle-android-junit-jacoco-plugin:0.16.0"
+            ]
+    ]
+
     repositories {
         google()
         mavenCentral()
+        maven {url 'https://www.jitpack.io'}
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:7.0.2"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.31"
+        classpath deps.tools.gradleandroid
+        classpath deps.tools.kotlin
+        classpath deps.tools.gradleversions
+        classpath deps.tools.navigation
+        classpath deps.tools.jacoco_android
+    }
+}
 
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
+plugins {
+    id 'com.github.ben-manes.versions' version '0.33.0'
+    id 'org.jetbrains.kotlin.android' version '1.6.21' apply false
+}
+
+apply plugin: "com.vanniktech.android.junit.jacoco"
+
+junitJacoco {
+    jacocoVersion = '0.8.5' // type String
+    ignoreProjects = [] // type String array
+    excludes // type String List
+    includeNoLocationClasses = false // type boolean
+    includeInstrumentationCoverageInMergedReport = false // type boolean
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+        maven {url 'https://www.jitpack.io'}
+    }
+}
+
+task analyzeCode {
+    group = 'verification'
+    description = 'Runs code analyzers'
+}
+
+subprojects {
+
+    tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+        kotlinOptions {
+            jvmTarget = JavaVersion.VERSION_1_8
+        }
+    }
+
+    plugins.withType(com.android.build.gradle.BasePlugin).configureEach {
+        android {
+            buildToolsVersion buildConfig.buildTools
+            compileSdkVersion buildConfig.compileSdk
+
+            dexOptions {
+                preDexLibraries true
+            }
+
+            defaultConfig {
+                minSdkVersion buildConfig.minSdk
+                targetSdkVersion buildConfig.targetSdk
+                testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+            }
+
+            compileOptions {
+                sourceCompatibility buildConfig.javaVersion
+                targetCompatibility buildConfig.javaVersion
+            }
+
+            packagingOptions {
+                exclude("META-INF/*.kotlin_module")
+            }
+        }
     }
 }
 
